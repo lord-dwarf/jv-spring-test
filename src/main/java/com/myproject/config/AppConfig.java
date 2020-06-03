@@ -18,7 +18,7 @@ public class AppConfig {
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/spring_test?serverTimezone=Europe/Kiev");
         dataSource.setUsername("root");
-        dataSource.setPassword("*********");
+        dataSource.setPassword("********");
         return dataSource;
     }
 
