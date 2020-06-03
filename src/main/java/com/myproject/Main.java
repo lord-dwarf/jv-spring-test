@@ -15,7 +15,6 @@ public class Main {
         coala.setLogin("NotABear1999");
         coala.setEmail("coala@downunderworld.au");
         userService.add(coala);
-
         User kangaroo = new User();
         kangaroo.setLogin("Marsupial1988");
         kangaroo.setEmail("kangaroo@downunderworld.au");
