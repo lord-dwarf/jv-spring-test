@@ -41,13 +41,13 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User get(Long userId) {
+    public User get(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            Query<User> query = session.createQuery("FROM User u WHERE u.id = :userId", User.class);
-            query.setParameter("userId", userId);
+            Query<User> query = session.createQuery("FROM User WHERE id = :id", User.class);
+            query.setParameter("id", id);
             return query.getSingleResult();
         } catch (Exception e) {
-            throw new RuntimeException("Failure: can't retrieve user by the id #" + userId
+            throw new RuntimeException("Failure: can't retrieve user by the id #" + id
                     + ", or there is no such user stored in DB.");
         }
     }

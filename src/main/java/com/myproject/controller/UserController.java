@@ -5,7 +5,6 @@ import com.myproject.model.User;
 import com.myproject.service.UserService;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,15 +36,15 @@ public class UserController {
         return "Success: stars have aligned and warriors are here...";
     }
 
-    @GetMapping("/{userId}")
-    public UserResponseDto get(@PathVariable Long userId) {
-        return getUserDto(userService.get(userId));
+    @GetMapping("/{id}")
+    public UserResponseDto get(@PathVariable Long id) {
+        return getUserDto(userService.get(id));
     }
 
     @GetMapping
     public List<UserResponseDto> getAll() {
-        List<User> users = userService.listUsers();
-        return users.stream()
+        return userService.listUsers()
+                .stream()
                 .map(this::getUserDto)
                 .collect(Collectors.toList());
     }
