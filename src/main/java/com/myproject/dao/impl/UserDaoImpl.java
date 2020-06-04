@@ -3,6 +3,7 @@ package com.myproject.dao.impl;
 import com.myproject.dao.UserDao;
 import com.myproject.model.User;
 import java.util.List;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -39,10 +40,21 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public User get(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            Query query = session.createQuery("FROM User WHERE id =:id");
+            query.setParameter("id", id);
+            return (User) query.getSingleResult();
+        } catch (Exception e) {
+            throw new RuntimeException("Failure: can't retrieve user by the id #" + id
+                    + ", or there is no such user stored in DB.");
+        }
+    }
+
+    @Override
     public List<User> getAll() {
         try (Session session = sessionFactory.openSession()) {
-            CriteriaQuery<User> query =
-                    session.getCriteriaBuilder().createQuery(User.class);
+            CriteriaQuery<User> query = session.getCriteriaBuilder().createQuery(User.class);
             query.from(User.class);
             return session.createQuery(query).getResultList();
         } catch (Exception e) {
