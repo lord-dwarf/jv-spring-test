@@ -3,17 +3,18 @@ package com.myproject.dao.impl;
 import com.myproject.dao.UserDao;
 import com.myproject.model.User;
 import java.util.List;
-import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class UserDaoImpl implements UserDao {
     private final SessionFactory sessionFactory;
 
+    @Autowired
     public UserDaoImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
@@ -40,13 +41,13 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User get(Long id) {
+    public User get(Long userId) {
         try (Session session = sessionFactory.openSession()) {
-            Query query = session.createQuery("FROM User WHERE id =:id");
-            query.setParameter("id", id);
-            return (User) query.getSingleResult();
+            Query<User> query = session.createQuery("FROM User u WHERE u.id = :userId", User.class);
+            query.setParameter("userId", userId);
+            return query.getSingleResult();
         } catch (Exception e) {
-            throw new RuntimeException("Failure: can't retrieve user by the id #" + id
+            throw new RuntimeException("Failure: can't retrieve user by the id #" + userId
                     + ", or there is no such user stored in DB.");
         }
     }
@@ -54,9 +55,8 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> getAll() {
         try (Session session = sessionFactory.openSession()) {
-            CriteriaQuery<User> query = session.getCriteriaBuilder().createQuery(User.class);
-            query.from(User.class);
-            return session.createQuery(query).getResultList();
+            Query<User> query = session.createQuery("FROM User", User.class);
+            return query.getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Failure: can't retrieve list of users from DB.", e);
         }
