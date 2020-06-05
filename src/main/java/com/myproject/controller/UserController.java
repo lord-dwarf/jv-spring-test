@@ -37,12 +37,12 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public UserResponseDto getUserDtoById(@PathVariable Long id) {
+    public UserResponseDto getById(@PathVariable Long id) {
         return getUserDto(userService.get(id));
     }
 
     @GetMapping
-    public List<UserResponseDto> getAllUsersDtos() {
+    public List<UserResponseDto> getAll() {
         return userService.listUsers()
                 .stream()
                 .map(this::getUserDto)
