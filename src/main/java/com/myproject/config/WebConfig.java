@@ -12,7 +12,7 @@ import org.springframework.web.servlet.view.JstlView;
 @ComponentScan(basePackages = {"com.myproject.controller"})
 public class WebConfig {
     @Bean
-    public InternalResourceViewResolver resolve() {
+    public InternalResourceViewResolver createResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
         resolver.setViewClass(JstlView.class);
         resolver.setPrefix("/WEB-INF/view/");
