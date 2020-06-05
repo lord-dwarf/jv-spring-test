@@ -1,6 +1,6 @@
 package com.myproject.controller;
 
-import com.myproject.UserResponseDto;
+import com.myproject.dto.UserResponseDto;
 import com.myproject.model.User;
 import com.myproject.service.UserService;
 import java.util.List;
